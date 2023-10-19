@@ -272,7 +272,7 @@ int main(int argc, char* argv[]) {
     while (l2_norm > tol && iter < iter_max) {
         CUDA_RT_CALL(cudaMemsetAsync(l2_norm_d, 0, sizeof(real), compute_stream));
 
-        calculate_norm = (iter % nccheck) == 0 || (!csv && (iter % 100) == 0);
+        calculate_norm = (iter % nccheck) == 0 || (!csv && (iter % 1000) == 0);
 
         launch_jacobi_kernel(a_new, a, l2_norm_d, iy_start, iy_end, nx, calculate_norm,
                              compute_stream);
@@ -422,7 +422,7 @@ double single_gpu(const int nx, const int ny, const int iter_max, real* const a_
         CUDA_RT_CALL(cudaStreamWaitEvent(compute_stream, push_top_done, 0));
         CUDA_RT_CALL(cudaStreamWaitEvent(compute_stream, push_bottom_done, 0));
 
-        calculate_norm = (iter % nccheck) == 0 || (iter % 100) == 0;
+        calculate_norm = (iter % nccheck) == 0 || (iter % 1000) == 0;
         launch_jacobi_kernel(a_new, a, l2_norm_d, iy_start, iy_end, nx, calculate_norm,
                              compute_stream);
         CUDA_RT_CALL(cudaEventRecord(compute_done, compute_stream));

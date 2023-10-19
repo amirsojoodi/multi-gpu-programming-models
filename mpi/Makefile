@@ -1,7 +1,7 @@
 # Copyright (c) 2017-2018, NVIDIA CORPORATION. All rights reserved.
 NP ?= 1
-NVCC=nvcc
-MPICXX=mpicxx
+NVCC=scorep nvcc
+MPICXX=scorep mpicxx
 MPIRUN ?= mpirun
 CUDA_HOME ?= /usr/local/cuda
 GENCODE_SM30	:= -gencode arch=compute_30,code=sm_30
@@ -23,7 +23,7 @@ ifdef SKIP_CUDA_AWARENESS_CHECK
 endif
 NVCC_FLAGS += -lineinfo $(GENCODE_FLAGS) -std=c++14
 MPICXX_FLAGS += -DUSE_NVTX -I$(CUDA_HOME)/include -std=c++14
-LD_FLAGS = -L$(CUDA_HOME)/lib64 -lcudart -lnvToolsExt
+LD_FLAGS = -L$(CUDA_HOME)/lib64 -lcudart -lnvToolsExt -L /cvmfs/soft.computecanada.ca/easybuild/software/2020/Core/intel/2020.1.217/lib/intel64/ -lintlc -lirc
 jacobi: Makefile jacobi.cpp jacobi_kernels.o
 	$(MPICXX) $(MPICXX_FLAGS) jacobi.cpp jacobi_kernels.o $(LD_FLAGS) -o jacobi
 
