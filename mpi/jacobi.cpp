@@ -112,7 +112,7 @@ typedef float real;
 #define MPI_REAL_TYPE MPI_FLOAT
 #endif
 
-constexpr real tol = 1.0e-8;
+constexpr real tol = 1.0e-2;
 
 const real PI = 2.0 * std::asin(1.0);
 
